@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProductForm from '../Components/ProductForm';
-import ProductTable from '../Components/ProductTable';
+import ProductForm from './Components/admin/ProductForm';
+import ProductTable from './Components/admin/ProductTable';
 
 const Products = () => {
     return (

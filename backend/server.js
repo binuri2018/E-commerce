@@ -1,6 +1,7 @@
 const express = require('express'); // Import express
 const dotenv = require('dotenv'); // Import dotenv for environment variables
 const cors = require('cors'); // Import cors for cross-origin resource sharing
+const path = require('path');
 
 // Import the database connection function
 const connectDB = require('./config/db');
@@ -22,6 +23,10 @@ app.use(cors()); // Enable CORS
 app.use('/api/users', userRoutes); 
 app.use('/api/products', productRoutes);
 
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Global error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack); // Log the error stack for debugging
     res.status(500).json({ message: 'Server Error' });
