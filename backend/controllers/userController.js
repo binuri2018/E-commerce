@@ -1,50 +1,50 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
-// Signup
-const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
-
+exports.signup = async (req, res) => {
     try {
-        console.log('Received data:', req.body); // Log incoming request data
+        const { name, email, phone, password } = req.body;
 
         // Check if the user already exists
-        const userExists = await User.findOne({ email });
-        if (userExists) {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        // Create new user
-        const user = await User.create({ name, email, password });
-        console.log('User created:', user); // Log the created user
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Create a new user
+        const newUser = new User({
+            name,
+            email,
+            phone,
+            password: hashedPassword,
+            customerId: `CUST-${Date.now()}` // Generating a unique customer ID
+        });
+
+        await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
+
     } catch (error) {
-        console.error('Error during registration:', error.message); // Log the error
-        res.status(500).json({ message: 'Server error during registration', error: error.message });
+        console.error('Signup Error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
-// Login
-const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    
+exports.login = async (req, res) => {
     try {
-        console.log('Received data:', req.body); // Log incoming data
-
+        const { email, password } = req.body;
         const user = await User.findOne({ email });
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!user) return res.status(400).json({ message: 'User not found' });
 
-        // Compare the hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+        res.json({ token, customerId: user.customerId, message: 'Login successful' });
     } catch (error) {
-        console.error('Error during login:', error.message); // Log the full error message
-        res.status(500).json({ message: 'Server error during login', error: error.message });
+        res.status(500).json({ message: 'Error logging in', error });
     }
 };
-module.exports = { registerUser, loginUser };

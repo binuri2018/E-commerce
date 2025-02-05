@@ -37,6 +37,14 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
+app.get('/api/users/check', async (req, res) => {
+    const { email } = req.query;
+    const user = await User.findOne({ email });
+
+    if (user) return res.json({ exists: true });
+    res.json({ exists: false });
+});
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
