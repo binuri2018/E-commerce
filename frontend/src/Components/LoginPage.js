@@ -45,13 +45,13 @@ const LoginPage = () => {
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
-        const emailPattern = /^[a-zA-Z0-9_]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+        const emailPattern = /^[a-z0-9_]+@[a-z]+\.[a-z]{2,6}$/;
         
         if (emailPattern.test(value) || value === '') {
             setEmail(value);
             setEmailError('');
         } else {
-            setEmailError('Email must follow the format bin12_d@example.com, allowing only letters, numbers, and underscores before @, and only a dot after @.');
+            setEmailError('Email must follow the format someone@example.com.');
         }
     };
 
@@ -76,14 +76,14 @@ const LoginPage = () => {
         <div className="auth-page"> 
         <div className="auth-container">
             <div className="signup-box">
-                <h2>Create New Account</h2>
+                <h2>Login</h2>
                 <div className="auth-frame"> 
                     <div className="auth-card">
                         {error && <p className="error-text">{error}</p>}
                         <input type="email" placeholder="Email" value={email} 
                             onChange={handleEmailChange} className="auth-input"/>
                         {emailError && <p className="error-text">{emailError}</p>}
-                        <div className="password-container">
+                        <div className="password-group">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Password"
@@ -92,13 +92,9 @@ const LoginPage = () => {
                                 className="auth-input password-input"
                                 onFocus={() => setShowPasswordRules(true)}
                             />
-                            <button 
-                                type="button" 
-                                className="eye-icon inside-input" 
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
+                            <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                            </button>
+                            </span>
                         </div>
                         {showPasswordRules && passwordError && <p className="error-text">{passwordError}</p>}
                         <button onClick={handleLogin} className="signup-btn">Login</button>

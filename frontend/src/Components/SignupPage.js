@@ -29,15 +29,32 @@ const SignupPage = () => {
     };
 
     const validateEmail = (value) => {
-        setEmail(value);
-        const emailRegex = /^[a-z0-9._]+@[a-z]+\.[a-z]{2,6}$/;
-        if (!emailRegex.test(value)) {
-            setErrors((prev) => ({ ...prev, email: "Invalid email format. Example: someone@example.com" }));
-        } else {
-            setErrors((prev) => ({ ...prev, email: "" }));
+        let formattedEmail = value.replace(/[^a-z0-9@._]/gi, ""); // Allow only letters, numbers, @, ., _
+    
+        let errorMsg = "";
+    
+        const atIndex = formattedEmail.indexOf("@");
+        if (atIndex !== -1) {
+            const beforeAt = formattedEmail.slice(0, atIndex + 1);
+            const afterAt = formattedEmail.slice(atIndex + 1).replace(/[^a-z.]/gi, ""); // Only allow letters and . after @
+    
+            if (formattedEmail.slice(atIndex + 1) !== afterAt) {
+                errorMsg = "Only letters and dots (.) are allowed after '@'.";
+            }
+    
+            formattedEmail = beforeAt + afterAt;
         }
+    
+        setEmail(formattedEmail);
+    
+        const emailRegex = /^[a-z0-9._]+@[a-z]+\.[a-z.]{2,6}$/;
+        if (!emailRegex.test(formattedEmail)) {
+            errorMsg = "Invalid email format. Example: someone@example.com";
+        }
+    
+        setErrors((prev) => ({ ...prev, email: errorMsg }));
     };
-
+    
     const validatePhone = (value) => {
         const onlyNumbers = value.replace(/\D/g, "");
         setPhone(onlyNumbers.slice(0, 15));
@@ -132,21 +149,21 @@ const SignupPage = () => {
                                     value={password}
                                     onChange={(e) => validatePassword(e.target.value)}
                                     onFocus={() => setShowPasswordRules(true)} // Show regulations when focused
-                                    onBlur={() => !errors.password && setShowPasswordRules(false)} // Hide once valid
+                                    onBlur={() => !errors.password && setShowPasswordRules(false)} 
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    className="eye-icon inside-input"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                </button>
+                                <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </span>
                             </div>
                             {showPasswordRules && errors.password && <p className="error-text">{errors.password}</p>}
                         </div>
 
                         <button type="submit" className="signup-btn">Sign Up</button>
+                        <p className="switch-text">
+                            Already have an account? 
+                            <span className="signup-link" onClick={() => navigate('/login')}> Login</span>
+                        </p>
                     </form>
                 </div>
             </div>

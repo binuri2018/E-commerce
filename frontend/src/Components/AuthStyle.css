@@ -44,6 +44,7 @@ input {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
+    margin-bottom: 1.5rem;
     font-size: 16px;
     outline: none;
     transition: 0.3s;
@@ -247,7 +248,7 @@ input:focus {
 /* Eye icon positioning for password visibility toggle */
 .eye-icon {
     position: absolute;
-    top: 50%;
+    top: 35%;
     right: 10px;
     transform: translateY(-50%);
     background: none;
@@ -270,5 +271,16 @@ input:focus {
     text-decoration: underline;
 }
 
+.password-group {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    width: 100%;
+    padding: 12px 40px 12px 12px; /* Adjust right padding to make space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
   
