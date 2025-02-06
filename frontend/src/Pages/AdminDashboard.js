@@ -6,10 +6,6 @@ import ProductForm from '../Components/Admin/ProductForm';
 const AdminDashboard = () => {
     return (
         <div>
-            <nav>
-                <Link to="products">Manage Products</Link>
-                <Link to="add-product">Add Product</Link>
-            </nav>
             <Routes>
                 <Route path="/products" element={<ProductTable />} />
                 <Route path="/add-product" element={<ProductForm />} />
