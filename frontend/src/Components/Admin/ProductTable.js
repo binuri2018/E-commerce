@@ -69,6 +69,10 @@ const ProductTable = () => {
                 <button className="add-product-btn" onClick={() => navigate('/admin/add-product')}>
                     Add Product
                 </button>
+                {/* All Carts Button */}
+                <button className="all-carts-btn" onClick={() => navigate('/admin/allcarts')}>
+                    All Carts
+                </button>
                 <button className="generate-report-btn" onClick={generateReport}>
                     Generate Report
                 </button>

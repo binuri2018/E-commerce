@@ -92,7 +92,6 @@
 .generate-report-btn {
     padding: 10px 20px;
     margin: 0 auto 20px auto;
-    padding: 10px 20px;
     background-color: #ffc107;
     color: #fff;
     border: none;
@@ -127,4 +126,25 @@
     width: 90%;
     max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.all-carts-btn {
+    background-color: #28a745;
+    margin: 0 auto 20px auto;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.all-carts-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.all-carts-btn:active {
+    background-color: #3e8e41;
+    transform: translateY(1px);
 }

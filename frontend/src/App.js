@@ -6,9 +6,16 @@ import CustomerHome from "./Pages/CustomerHome";
 import LoginPage from "./Components/LoginPage";
 import SignupPage from "./Components/SignupPage";
 import WelcomePage from "./Pages/WelcomePage";
+import MyCart from "./Pages/MyCart";
 
 const App = () => {
     const isAdmin = true; 
+
+    const user = JSON.parse(localStorage.getItem("user")); // Assuming user data is stored
+if (user) {
+    localStorage.setItem("customerId", user.customerId);
+}
+
 
     return (
         <Routes>
@@ -17,6 +24,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/customer-home" element={<CustomerHome />} />
+            <Route path="/mycart" element={<MyCart />} />
 
             {/* Admin Side */}
             <Route

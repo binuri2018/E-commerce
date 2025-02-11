@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 // Import routes
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 dotenv.config(); // Load environment variables from .env
 
@@ -22,6 +23,7 @@ app.use(cors()); // Enable CORS
 // Routes
 app.use('/api/users', userRoutes); 
 app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
