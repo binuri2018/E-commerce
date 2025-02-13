@@ -1,0 +1,40 @@
+.cartcontent {
+    margin-top: 150px;
+    padding: 20px;
+}
+.cart-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0; /* Soft divider line */
+}
+.cart-row .item-name,
+.cart-row .item-quantity,
+.cart-row .item-price {
+    flex: 1;
+    text-align: left;
+}
+.remove-button {
+    background-color: #fe2a94;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.remove-button:hover {
+    background-color: #e63946;
+}
+.cart-subtotal {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}

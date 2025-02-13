@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import "./WelcomePage.css"; // Importing CSS
-import logo from "../Assets/logo.png"; // Importing logo
+import "./WelcomePage.css"; 
+import logo from "../Assets/logo.png"; 
 import { FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa"; // Contact Icons
 import { FaFacebook, FaTiktok, FaInstagram, FaTwitter } from "react-icons/fa"; // Social Media Icons
 
