@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import "./AuthStyle.css"; // Importing CSS
+import "./AuthStyle.css"; 
+import logo from "../Assets/logo.png";
 
 const SignupPage = () => {
     const [name, setName] = useState("");
@@ -102,7 +103,13 @@ const SignupPage = () => {
     };
 
     return (
+        
         <div className="auth-page">
+            <nav className="navbar">
+                            <div className="nav-left">
+                                <img src={logo} alt="Logo" className="logo" />
+                            </div>
+                        </nav>
             <div className="signup-container">
                 <div className="signup-box">
                     <h2>Create New Account</h2>
