@@ -1,12 +1,3 @@
-.auth-page {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right,#ffc6c4, #eff3ff );
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
 
 /* Signup container */
 .signup-container {
@@ -20,7 +11,8 @@
 .signup-box {
     background: white;
     padding: 2rem;
-    margin-top: 60px;
+    margin-top: 300px;
+    margin-bottom: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -78,14 +70,14 @@ input:focus {
 }
 
 .signup-link {
-    color: #2575fc; /* Blue color */
+    color: #2575fc; 
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .signup-link:hover {
-    color: #6a11cb; /* Slightly darker blue on hover */
+    color: #6a11cb; 
 }
 
 .password-container {
@@ -97,7 +89,7 @@ input:focus {
 
 .password-input {
     width: 100%;
-    padding-right: 40px; /* Make space for the eye icon */
+    padding-right: 40px; 
 }
 
 .eye-icon {
@@ -106,11 +98,11 @@ input:focus {
     background: none;
     border: none;
     cursor: pointer;
-    color: #555; /* Subtle color */
+    color: #555; 
 }
 
 .eye-icon:hover {
-    color: #2575fc; /* Blue color on hover */
+    color: #2575fc; 
 }
 
 /* Container styling */
@@ -157,7 +149,7 @@ input:focus {
   }
   
   /* Container and overall styling */
-.auth-page {
+  .auth-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -182,7 +174,7 @@ input:focus {
 .auth-input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 1.5rem; /* Adds space between fields */
+    margin-bottom: 1.5rem; 
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 16px;
@@ -197,7 +189,7 @@ input:focus {
 .password-input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 1.5rem; /* Adds space between fields */
+    margin-bottom: 1.5rem; 
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 16px;
@@ -262,7 +254,7 @@ input:focus {
 
 .password-input {
     width: 100%;
-    padding: 12px 40px 12px 12px; /* Adjust right padding to make space for the icon */
+    padding: 12px 40px 12px 12px; 
     border: 1px solid #ccc;
     border-radius: 5px;
 }

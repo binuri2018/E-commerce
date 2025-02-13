@@ -24,7 +24,7 @@ const WelcomePage = () => {
         </div>
       </nav>
 
-      {/* Empty Page Content (To push footer down) */}
+      
       <div className="empty-content"></div>
 
       {/* Footer */}

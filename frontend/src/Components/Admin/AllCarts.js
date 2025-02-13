@@ -17,9 +17,9 @@ const AllCarts = () => {
                 <div key={cart._id}>
                     <h3>Customer: {cart.customerId}</h3>
                     {cart.items.map(item => (
-                        <p key={item.productId._id}>{item.productId.name} - {item.quantity} x ${item.price}</p>
+                        <p key={item.productId._id}>{item.productId.name} - {item.quantity} x Rs.{item.price}</p>
                     ))}
-                    <h4>Subtotal: ${cart.subtotal}</h4>
+                    <h4>Subtotal: Rs.{cart.subtotal}</h4>
                 </div>
             ))}
         </div>

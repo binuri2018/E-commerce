@@ -13,17 +13,16 @@ const MyCart = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        console.log("🔍 Checking customerId:", customerId);
+        console.log("Checking customerId:", customerId);
 
         if (!customerId) {
-            console.error("❌ Customer ID is missing!");
+            console.error(" Customer ID is missing!");
             return;
         }
 
         axios.get(`http://localhost:5000/api/cart/customer/${customerId}`)
             .then(response => {
-                console.log("Fetched cart data:", response.data);  // 🛠 Log full response
-                setCart(response.data);
+                console.log("Fetched cart data:", response.data);  
             })
             .catch(error => {
                 console.error("Error fetching cart:", error);
@@ -40,7 +39,7 @@ const MyCart = () => {
                 console.log("Cart is now empty. Clearing from UI.");
                 setCart(null);
             } else {
-                setCart(response.data);  // ✅ Update UI with latest cart
+                setCart(response.data);  
             }
 
             console.log("Cart updated successfully!", response.data);
@@ -92,7 +91,7 @@ const MyCart = () => {
                                 {item.quantity}
                             </span>
                             <span className="item-price">
-                                ${item.price}
+                                Rs.{item.price}
                             </span>
                             <button className="remove-button" onClick={() => handleRemove(item.productId?._id)}>
                                 Remove
@@ -102,7 +101,7 @@ const MyCart = () => {
                 </div>
                 
                 <div className="cart-subtotal">
-                    <h3>Subtotal: ${cart?.subtotal}</h3>
+                    <h3>Subtotal: Rs.{cart?.subtotal}</h3>
                 </div>
             </div>
             {/* Footer */}

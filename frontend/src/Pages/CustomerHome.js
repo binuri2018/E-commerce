@@ -44,14 +44,14 @@ const CustomerHome = () => {
     const handleAddToCart = async (product) => {
         try {
             if (!product || !product._id) {
-                console.error("❌ Invalid product data:", product);
+                console.error(" Invalid product data:", product);
                 alert("Invalid product details. Please try again.");
                 return;
             }
     
             const customerId = localStorage.getItem("customerId");
             if (!customerId) {
-                console.error("❌ User is not logged in!");
+                console.error(" User is not logged in!");
                 alert("Please log in to add items to your cart.");
                 return;
             }
@@ -183,7 +183,7 @@ const CustomerHome = () => {
                     </div>
                 )}
 
-                {/* Display popup message */}
+                
                 {popupMessage && <div className="popup">{popupMessage}</div>}
             </div>
 

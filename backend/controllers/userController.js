@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
     try {
-        const { name, email, phone, password } = req.body;
+        const { name, email, phone, password, address } = req.body;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
@@ -15,13 +15,14 @@ exports.signup = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new user
+        // Create a new user with address
         const newUser = new User({
             name,
             email,
             phone,
             password: hashedPassword,
-            customerId: `CUST-${Date.now()}` // Generating a unique customer ID
+            address, // Address object
+            customerId: `CUST-${Date.now()}`
         });
 
         await newUser.save();
@@ -46,5 +47,27 @@ exports.login = async (req, res) => {
         res.json({ token, customerId: user.customerId, message: 'Login successful' });
     } catch (error) {
         res.status(500).json({ message: 'Error logging in', error });
+    }
+};
+
+// Update Address
+exports.updateAddress = async (req, res) => {
+    try {
+        const { customerId } = req.params;
+        const { houseNo, street, city } = req.body;
+
+        const user = await User.findOneAndUpdate(
+            { customerId },
+            { address: {  houseNo, street, city } },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Address updated successfully', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating address', error });
     }
 };
