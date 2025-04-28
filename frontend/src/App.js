@@ -11,11 +11,21 @@ import MyCart from "./Pages/MyCart";
 const App = () => {
     const isAdmin = true; 
 
-    const user = JSON.parse(localStorage.getItem("user")); // Assuming user data is stored
-if (user) {
-    localStorage.setItem("customerId", user.customerId);
-}
+    // Safely get user from localStorage
+    let user = null;
+    const rawUser = localStorage.getItem("user");
 
+    if (rawUser && rawUser !== "undefined") {
+        try {
+            user = JSON.parse(rawUser);
+            if (user) {
+                localStorage.setItem("customerId", user.customerId);
+            }
+        } catch (error) {
+            console.error("Failed to parse user:", error);
+            user = null;
+        }
+    }
 
     return (
         <Routes>
