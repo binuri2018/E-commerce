@@ -5,6 +5,7 @@ const path = require('path');
 
 // Import the database connection function
 const connectDB = require('./config/db');
+const { initializeAdmin } = require('./scripts/initAdmin');
 // Import routes
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -12,7 +13,11 @@ const cartRoutes = require('./routes/cartRoutes');
 
 dotenv.config(); // Load environment variables from .env
 
-connectDB(); // Connect to MongoDB
+// Connect to MongoDB
+connectDB().then(() => {
+    // Initialize admin user after database connection
+    initializeAdmin();
+});
 
 const app = express(); // Initialize the Express app
 

@@ -8,6 +8,7 @@ import { FaFacebook, FaTiktok, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const MyCart = () => {
     const [cart, setCart] = useState(null);
+    const [loading, setLoading] = useState(true);
     const customerId = localStorage.getItem("customerId");
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
@@ -16,16 +17,20 @@ const MyCart = () => {
         console.log("Checking customerId:", customerId);
 
         if (!customerId) {
-            console.error(" Customer ID is missing!");
+            console.error("Customer ID is missing!");
+            setLoading(false);
             return;
         }
 
         axios.get(`http://localhost:5000/api/cart/customer/${customerId}`)
             .then(response => {
-                console.log("Fetched cart data:", response.data);  
+                console.log("Fetched cart data:", response.data);
+                setCart(response.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching cart:", error);
+                setLoading(false);
             });
     }, [customerId]);
 
@@ -81,28 +86,36 @@ const MyCart = () => {
                     />
                 </div>
 
-                <div className="cart-table">
-                    {filteredProducts?.map(item => (
-                        <div key={item.productId?._id || item._id} className="cart-row">
-                            <span className="item-name">
-                                {item.productId?.name ? item.productId.name : "Item name not available"}
-                            </span>
-                            <span className="item-quantity">
-                                {item.quantity}
-                            </span>
-                            <span className="item-price">
-                                Rs.{item.price}
-                            </span>
-                            <button className="remove-button" onClick={() => handleRemove(item.productId?._id)}>
-                                Remove
-                            </button>
+                {loading ? (
+                    <div className="loading-message">Loading cart...</div>
+                ) : !cart ? (
+                    <div className="empty-cart-message">Your cart is empty</div>
+                ) : (
+                    <>
+                        <div className="cart-items">
+                            {filteredProducts?.map(item => (
+                                <div key={item.productId?._id || item._id} className="cart-row">
+                                    <span className="item-name">
+                                        {item.productId?.name ? item.productId.name : "Item name not available"}
+                                    </span>
+                                    <span className="item-quantity">
+                                        {item.quantity}
+                                    </span>
+                                    <span className="item-price">
+                                        Rs.{item.price}
+                                    </span>
+                                    <button className="remove-button" onClick={() => handleRemove(item.productId?._id)}>
+                                        Remove
+                                    </button>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-                
-                <div className="cart-subtotal">
-                    <h3>Subtotal: Rs.{cart?.subtotal}</h3>
-                </div>
+                        
+                        <div className="cart-subtotal">
+                            <h3>Subtotal: Rs.{cart?.subtotal || 0}</h3>
+                        </div>
+                    </>
+                )}
             </div>
             {/* Footer */}
                         <footer className="footer">

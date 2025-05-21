@@ -37,18 +37,18 @@ const WelcomePage = () => {
           </div>
 
         <div className="footer-right">
-          <p><strong>About Us </strong> <br />
+          <p>
+            <strong>About Us </strong> <br />
             Welcome to Crystal Chandelier, your go-to fashion destination. 
             We bring you the latest trends with high-quality and stylish designs. 
             Our mission is to provide an exceptional shopping experience.
             <br /><br />
-
             <strong>Follow Us On </strong> <br /><br />
-          <a href="#" className="social-link"><FaFacebook /></a>
-          <a href="#" className="social-link"><FaTiktok /></a>
-          <a href="#" className="social-link"><FaInstagram /></a>
-          <a href="#" className="social-link"><FaTwitter /></a>
-        </p>
+            <a href="#" className="social-link"><FaFacebook /></a>
+            <a href="#" className="social-link"><FaTiktok /></a>
+            <a href="#" className="social-link"><FaInstagram /></a>
+            <a href="#" className="social-link"><FaTwitter /></a>
+          </p>
           </div>
       </footer>
     </div>
