@@ -118,17 +118,32 @@ exports.adminLogin = async (req, res) => {
     }
 };
 
+// Get User Profile
+exports.getProfile = async (req, res) => {
+    try {
+        const user = await User.findOne({ customerId: req.user.customerId })
+            .select('-password'); // Exclude password from the response
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error('Profile fetch error:', error);
+        res.status(500).json({ message: 'Error fetching profile', error: error.message });
+    }
+};
+
 // Update Address
 exports.updateAddress = async (req, res) => {
     try {
-        const { customerId } = req.params;
         const { houseNo, street, city } = req.body;
-
         const user = await User.findOneAndUpdate(
-            { customerId },
-            { address: {  houseNo, street, city } },
+            { customerId: req.user.customerId },
+            { address: { houseNo, street, city } },
             { new: true }
-        );
+        ).select('-password'); // Exclude password from the response
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -136,6 +151,7 @@ exports.updateAddress = async (req, res) => {
 
         res.status(200).json({ message: 'Address updated successfully', user });
     } catch (error) {
-        res.status(500).json({ message: 'Error updating address', error });
+        console.error('Address update error:', error);
+        res.status(500).json({ message: 'Error updating address', error: error.message });
     }
 };

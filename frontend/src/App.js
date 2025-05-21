@@ -9,6 +9,7 @@ import SignupPage from "./Components/SignupPage";
 import WelcomePage from "./Pages/WelcomePage";
 import MyCart from "./Pages/MyCart";
 import AdminLogin from "./Components/AdminLogin";
+import Profile from "./Pages/Profile";
 
 const App = () => {
     return (
@@ -34,6 +35,14 @@ const App = () => {
                     element={
                         <PrivateRoute>
                             <MyCart />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <Profile />
                         </PrivateRoute>
                     }
                 />
