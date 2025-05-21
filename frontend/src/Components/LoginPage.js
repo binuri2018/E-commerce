@@ -1,9 +1,10 @@
 import "./AuthStyle.css";
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-import logo from "../Assets/logo.png"; 
+import { useAuth } from '../context/AuthContext';
+import logo from "../Assets/logo.png";
+
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,8 +14,10 @@ const LoginPage = () => {
     const [emailError, setEmailError] = useState('');
     const [showPasswordRules, setShowPasswordRules] = useState(false);
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
         setError(null);
 
         if (!email.trim() || !password.trim()) {
@@ -27,19 +30,11 @@ const LoginPage = () => {
             return;
         }
 
-        try {
-            const res = await axios.post(
-                'http://localhost:5000/api/users/login',
-                { email: email.trim(), password: password.trim() },
-                { headers: { "Content-Type": "application/json" } }
-            );
-
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('customerId', res.data.customerId);
-
+        const result = await login(email.trim(), password.trim());
+        if (result.success) {
             navigate('/customer-home');
-        } catch (err) {
-            setError(err.response?.data?.message || "Invalid login credentials");
+        } else {
+            setError(result.message);
         }
     };
 
@@ -80,35 +75,61 @@ const LoginPage = () => {
                 </div>
             </nav>
 
-            {/* Login Form */}
             <div className="auth-container">
                 <div className="signup-box">
                     <h2>Login</h2>
-                    <div className="auth-frame"> 
+                    <div className="auth-frame">
                         <div className="auth-card">
                             {error && <p className="error-text">{error}</p>}
-                            <input type="email" placeholder="Email" value={email} 
-                                onChange={handleEmailChange} className="auth-input"/>
-                            {emailError && <p className="error-text">{emailError}</p>}
-                            <div className="password-group">
+                            <form onSubmit={handleLogin}>
                                 <input
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={handlePasswordChange}
-                                    className="auth-input password-input"
-                                    onFocus={() => setShowPasswordRules(true)}
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={handleEmailChange}
+                                    className="auth-input"
                                 />
-                                <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                </span>
-                            </div>
-                            {showPasswordRules && passwordError && <p className="error-text">{passwordError}</p>}
-                            <button onClick={handleLogin} className="signup-btn">Login</button>
+                                {emailError && <p className="error-text">{emailError}</p>}
+                                <div className="password-group">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={handlePasswordChange}
+                                        className="auth-input password-input"
+                                        onFocus={() => setShowPasswordRules(true)}
+                                    />
+                                    <span
+                                        className="eye-icon"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </span>
+                                </div>
+                                {showPasswordRules && passwordError && (
+                                    <p className="error-text">{passwordError}</p>
+                                )}
+                                <button type="submit" className="signup-btn">
+                                    Login
+                                </button>
+                            </form>
                             <p className="switch-text">
-                                Don't have an account? 
-                                <span className="signup-link" onClick={() => navigate('/signup')}> Sign Up</span>
-                            </p> 
+                                Don't have an account?{' '}
+                                <span
+                                    className="signup-link"
+                                    onClick={() => navigate('/signup')}
+                                >
+                                    Sign Up
+                                </span>
+                            </p>
+                            <p className="switch-text">
+                                <span
+                                    className="signup-link"
+                                    onClick={() => navigate('/admin/login')}
+                                >
+                                    Admin Login
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>

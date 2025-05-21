@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoutes";
 import AdminDashboard from "./Pages/AdminDashboard";
 import CustomerHome from "./Pages/CustomerHome";
@@ -7,47 +8,49 @@ import LoginPage from "./Components/LoginPage";
 import SignupPage from "./Components/SignupPage";
 import WelcomePage from "./Pages/WelcomePage";
 import MyCart from "./Pages/MyCart";
+import AdminLogin from "./Components/AdminLogin";
 
 const App = () => {
-    const isAdmin = true; 
-
-    // Safely get user from localStorage
-    let user = null;
-    const rawUser = localStorage.getItem("user");
-
-    if (rawUser && rawUser !== "undefined") {
-        try {
-            user = JSON.parse(rawUser);
-            if (user) {
-                localStorage.setItem("customerId", user.customerId);
-            }
-        } catch (error) {
-            console.error("Failed to parse user:", error);
-            user = null;
-        }
-    }
-
     return (
-        <Routes>
-            {/* Customer Side */}
-            <Route path="/" element={<WelcomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/customer-home" element={<CustomerHome />} />
-            <Route path="/mycart" element={<MyCart />} />
+        <AuthProvider>
+            <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<WelcomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
 
-            {/* Admin Side */}
-            <Route
-                path="/admin/*"
-                element={
-                    <PrivateRoute isAdmin={isAdmin}>
-                        <Routes>
-                            <Route path="*" element={<AdminDashboard />} />
-                        </Routes>
-                    </PrivateRoute>
-                }
-            />
-        </Routes>
+                {/* Protected customer routes */}
+                <Route
+                    path="/customer-home"
+                    element={
+                        <PrivateRoute>
+                            <CustomerHome />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/mycart"
+                    element={
+                        <PrivateRoute>
+                            <MyCart />
+                        </PrivateRoute>
+                    }
+                />
+
+                {/* Protected admin routes */}
+                <Route
+                    path="/admin/*"
+                    element={
+                        <PrivateRoute requireAdmin={true}>
+                            <Routes>
+                                <Route path="*" element={<AdminDashboard />} />
+                            </Routes>
+                        </PrivateRoute>
+                    }
+                />
+            </Routes>
+        </AuthProvider>
     );
 };
 

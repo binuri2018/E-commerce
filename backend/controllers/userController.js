@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../middleware/auth');
 
 exports.signup = async (req, res) => {
     try {
@@ -21,8 +22,9 @@ exports.signup = async (req, res) => {
             email,
             phone,
             password: hashedPassword,
-            address, // Address object
-            customerId: `CUST-${Date.now()}`
+            address,
+            customerId: `CUST-${Date.now()}`,
+            isAdmin: false // Explicitly set isAdmin to false for regular users
         });
 
         await newUser.save();
@@ -43,10 +45,76 @@ exports.login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
-        res.json({ token, customerId: user.customerId, message: 'Login successful' });
+        const token = jwt.sign(
+            { 
+                userId: user._id,
+                isAdmin: user.isAdmin,
+                customerId: user.customerId
+            }, 
+            JWT_SECRET, 
+            { expiresIn: '24h' }
+        );
+
+        res.json({ 
+            token, 
+            customerId: user.customerId,
+            isAdmin: user.isAdmin,
+            message: 'Login successful' 
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error logging in', error });
+    }
+};
+
+exports.adminLogin = async (req, res) => {
+    try {
+        console.log('Admin login attempt:', req.body);
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            console.log('Admin login failed: Missing credentials');
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const user = await User.findOne({ email });
+        console.log('Found user:', user ? 'yes' : 'no', 'isAdmin:', user?.isAdmin);
+        
+        if (!user || !user.isAdmin) {
+            console.log('Admin login failed: Invalid credentials or not admin');
+            return res.status(401).json({ message: 'Invalid admin credentials' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log('Password match:', isMatch);
+        
+        if (!isMatch) {
+            console.log('Admin login failed: Invalid password');
+            return res.status(401).json({ message: 'Invalid admin credentials' });
+        }
+
+        const token = jwt.sign(
+            { 
+                userId: user._id,
+                isAdmin: true,
+                customerId: user.customerId
+            }, 
+            JWT_SECRET, 
+            { expiresIn: '24h' }
+        );
+
+        console.log('Admin login successful');
+        res.json({ 
+            token, 
+            customerId: user.customerId,
+            isAdmin: true,
+            message: 'Admin login successful' 
+        });
+    } catch (error) {
+        console.error('Admin login error:', error);
+        res.status(500).json({ 
+            message: 'Error logging in as admin',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
 };
 
