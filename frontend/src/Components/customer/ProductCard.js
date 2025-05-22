@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ProductCard = ({ product, onProductClick }) => {
-    const { name, price, description, stock, image } = product;
+    const { name, price, stock, image } = product;
 
     return (
         <div
@@ -29,9 +29,14 @@ const ProductCard = ({ product, onProductClick }) => {
                 }}
             />
             <h3>{name}</h3>
-            <p>{description}</p>
             <p>Price: Rs.{price}</p>
-            <p>In Stock: {stock}</p>
+            <p style={{
+                color: stock > 0 ? '#28a745' : '#dc3545',
+                fontWeight: 'bold',
+                margin: '5px 0'
+            }}>
+                {stock > 0 ? 'In Stock' : 'Out of Stock'}
+            </p>
         </div>
     );
 };

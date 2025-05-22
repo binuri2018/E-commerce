@@ -157,7 +157,11 @@ const CustomerHome = () => {
                             <h3>{selectedProduct.name}</h3>
                             <p>{selectedProduct.description}</p>
                             <p>Price: Rs.{selectedProduct.price}</p>
-                            <p>In Stock: {selectedProduct.stock}</p>
+                            {selectedProduct.stock ? (
+                                <p>In Stock: {selectedProduct.stock}</p>
+                            ) : (
+                                <p>Out of Stock</p>
+                            )}
                             <div className="quantity-control">
                                 <button
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
