@@ -4,11 +4,36 @@ import logo from "../Assets/logo.png";
 import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaFacebook, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const WelcomePage = () => {
     const navigate = useNavigate();
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const slides = [
+        {
+            image: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+            title: 'Welcome to Our Fashion Store',
+            subtitle: 'Discover the latest trends in fashion'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+            title: 'Summer Collection 2024',
+            subtitle: 'New arrivals for the season'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+            title: 'Exclusive Deals',
+            subtitle: 'Shop now and save up to 50%'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+            title: 'Premium Quality',
+            subtitle: 'Experience luxury fashion'
+        }
+    ];
 
     useEffect(() => {
         const fetchFeaturedProducts = async () => {
@@ -23,6 +48,14 @@ const WelcomePage = () => {
         };
 
         fetchFeaturedProducts();
+    }, []);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+        }, 10000); // Change slide every 15 seconds
+
+        return () => clearInterval(timer);
     }, []);
 
     return (
@@ -44,12 +77,33 @@ const WelcomePage = () => {
 
             {/* Hero Section */}
             <section className="hero-section">
-                <div className="hero-content">
-                    <h1>Discover Your Style</h1>
-                    <p>Explore our latest collection of trendy and affordable fashion</p>
-                    <button onClick={() => navigate("/signup")} className="cta-button">
-                        Shop Now
-                    </button>
+                <div className="hero-slideshow">
+                    {slides.map((slide, index) => (
+                        <div
+                            key={index}
+                            className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+                            style={{
+                                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${slide.image})`
+                            }}
+                        >
+                            <div className="hero-content">
+                                <h1>{slide.title}</h1>
+                                <p>{slide.subtitle}</p>
+                                <Link to="/login" className="cta-button">
+                                    Shop Now
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="slide-indicators">
+                        {slides.map((_, index) => (
+                            <span
+                                key={index}
+                                className={`indicator ${index === currentSlide ? 'active' : ''}`}
+                                onClick={() => setCurrentSlide(index)}
+                            />
+                        ))}
+                    </div>
                 </div>
             </section>
 
