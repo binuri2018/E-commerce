@@ -1,0 +1,120 @@
+.all-carts-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto; /* Center the container */
+}
+
+.all-carts-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #551133; /* Theme color for main heading */
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    border: 2px solid red; /* Added for debugging */
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #551133; /* Theme color on focus */
+    box-shadow: 0 0 0 0.2rem rgba(85, 17, 51, 0.25); /* Theme color shadow on focus */
+}
+
+.loading-message,
+.empty-carts-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin: 2rem 0;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.carts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between cards */
+}
+
+.cart-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.cart-card-header {
+    background-color: #f0f0f0; /* Light gray header */
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #551133; /* Theme color for card headers */
+    color: white; /* White text for theme color header */
+}
+
+.cart-card-header h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    /* color: #333; */ /* Removed as text color is set on the header */
+    color: white; /* Ensure heading is white */
+}
+
+.cart-card-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    /* color: #666; */ /* Removed as text color is set on the header */
+    color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for readability */
+}
+
+.cart-card-body {
+    padding: 15px;
+}
+
+.cart-card-body h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.cart-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee; /* Dashed border for items */
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-card-footer {
+    background-color: #f9f9f9; /* Light gray footer */
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.cart-card-footer h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #551133; /* Theme color for subtotal */
+} 
