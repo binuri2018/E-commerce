@@ -1,7 +1,7 @@
 /* General Styles */
 .welcome-page {
     min-height: 100vh;
-    background-color: #fff5f8; /* Light rose background */
+    background-color: #ffffff;
 }
 
 /* Navigation Bar */
@@ -20,7 +20,7 @@
 }
 
 .nav-left .logo {
-    height: 50px;
+    height: 70px;
 }
 
 .nav-right {
@@ -39,7 +39,7 @@
 
 .login-btn {
     background-color: transparent;
-    color: #fff5f8; /* Light rose */
+    color: #fff5f8; 
     border: 2px solid #fff5f8;
 }
 
@@ -49,50 +49,119 @@
 }
 
 .signup-btn {
-    background-color: #9C004E; /* Burgundy */
+    background-color: #551133; 
     color: #fff5f8;
 }
 
 .signup-btn:hover {
-    background-color: #AD466C; /* Rose */
+    background-color: #fff5f8; 
+    color: #551133;
 }
 
 /* Hero Section */
 .hero-section {
     height: 100vh;
-    background: linear-gradient(rgba(85, 17, 51, 0.7), rgba(156, 0, 78, 0.7)),
-                url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff5f8;
-    padding: 0 20px;
+}
+
+.hero-slide.active {
+    opacity: 1;
 }
 
 .hero-content {
     max-width: 800px;
+    padding: 0 20px;
+    color: #ffffff;
+    z-index: 2;
 }
 
 .hero-content h1 {
     font-size: 4rem;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
 }
 
 .hero-content p {
     font-size: 1.5rem;
     margin-bottom: 30px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+.hero-content .cta-button {
+    animation: fadeInUp 1s ease-out 0.6s backwards;
+}
+
+/* Slide Indicators */
+.slide-indicators {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background-color: #ffffff;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background-color: #ffffff;
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .cta-button {
     padding: 15px 40px;
     font-size: 1.2rem;
-    background-color: #9C004E; /* Burgundy */
-    color: #fff5f8;
+    background-color: #551133;
+    color: #ffffff;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -100,21 +169,21 @@
 }
 
 .cta-button:hover {
-    background-color: #AD466C; /* Rose */
+    background-color: #AD466C;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(156, 0, 78, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Categories Section */
 .categories-section {
     padding: 80px 20px;
-    background-color: #fff5f8; /* Light rose */
+    background-color: #f5f5f5;
 }
 
 .categories-section h2 {
     text-align: center;
     font-size: 2.5rem;
-    color: #551133; /* Deep Purple */
+    color: #333333;
     margin-bottom: 40px;
 }
 
@@ -130,14 +199,14 @@
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(85, 17, 51, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .category-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(85, 17, 51, 0.2);
+    box-shadow: 0 5px 15px #551133;
 }
 
 .category-image {
@@ -165,20 +234,20 @@
 .category-card h3 {
     padding: 20px;
     text-align: center;
-    color: #551133; /* Deep Purple */
+    color: #333333;
     font-size: 1.2rem;
 }
 
 /* Featured Products Section */
 .featured-section {
     padding: 80px 20px;
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .featured-section h2 {
     text-align: center;
     font-size: 2.5rem;
-    color: #551133; /* Deep Purple */
+    color: #333333;
     margin-bottom: 40px;
 }
 
@@ -194,14 +263,14 @@
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(85, 17, 51, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(85, 17, 51, 0.2);
+    box-shadow: 0 5px 15px #551133;
 }
 
 .product-image {
@@ -226,12 +295,12 @@
 }
 
 .product-info h3 {
-    color: #551133; /* Deep Purple */
+    color: #333333;
     margin-bottom: 10px;
 }
 
 .price {
-    color: #9C004E; /* Burgundy */
+    color: #666666;
     font-weight: bold;
     font-size: 1.2rem;
 }
@@ -239,12 +308,12 @@
 /* Special Offer Section */
 .offer-section {
     padding: 100px 20px;
-    background: linear-gradient(rgba(85, 17, 51, 0.8), rgba(156, 0, 78, 0.8)),
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                 url('https://images.unsplash.com/photo-1607083206968-13611e3d76db?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    color: #fff5f8;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -266,8 +335,8 @@
 .offer-button {
     padding: 15px 40px;
     font-size: 1.2rem;
-    background-color: #9C004E; /* Burgundy */
-    color: #fff5f8;
+    background-color: #551133;
+    color: #ffffff;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -275,15 +344,15 @@
 }
 
 .offer-button:hover {
-    background-color: #AD466C; /* Rose */
+    background-color: #AD466C;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(156, 0, 78, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* About Section */
 .about-section {
     padding: 80px 20px;
-    background-color: #fff5f8; /* Light rose */
+    background-color: #f5f5f5;
 }
 
 .about-content {
@@ -294,13 +363,13 @@
 
 .about-content h2 {
     font-size: 2.5rem;
-    color: #551133; /* Deep Purple */
+    color: #333333;
     margin-bottom: 20px;
 }
 
 .about-content > p {
     font-size: 1.2rem;
-    color: #551133; /* Deep Purple with opacity */
+    color: #333333;
     max-width: 800px;
     margin: 0 auto 40px;
 }
@@ -316,22 +385,22 @@
     padding: 30px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(85, 17, 51, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .feature:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(85, 17, 51, 0.2);
+    box-shadow: 0 5px 15px #551133;
 }
 
 .feature h3 {
-    color: #551133; /* Deep Purple */
+    color: #333333;
     margin-bottom: 15px;
 }
 
 .feature p {
-    color: #9C004E; /* Burgundy */
+    color: #666666;
 }
 
 /* Footer */
@@ -403,7 +472,7 @@
     text-align: center;
     padding: 40px;
     font-size: 1.2rem;
-    color: #551133; /* Deep Purple */
+    color: #333333;
 }
 
 /* Responsive Design */

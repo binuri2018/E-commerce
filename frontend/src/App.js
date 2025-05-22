@@ -14,11 +14,11 @@ import Profile from "./Pages/Profile";
 const App = () => {
     return (
         <AuthProvider>
-            <Routes>
+        <Routes>
                 {/* Public routes */}
-                <Route path="/" element={<WelcomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
 
                 {/* Protected customer routes */}
@@ -48,17 +48,17 @@ const App = () => {
                 />
 
                 {/* Protected admin routes */}
-                <Route
-                    path="/admin/*"
-                    element={
+            <Route
+                path="/admin/*"
+                element={
                         <PrivateRoute requireAdmin={true}>
-                            <Routes>
-                                <Route path="*" element={<AdminDashboard />} />
-                            </Routes>
-                        </PrivateRoute>
-                    }
-                />
-            </Routes>
+                        <Routes>
+                            <Route path="*" element={<AdminDashboard />} />
+                        </Routes>
+                    </PrivateRoute>
+                }
+            />
+        </Routes>
         </AuthProvider>
     );
 };
