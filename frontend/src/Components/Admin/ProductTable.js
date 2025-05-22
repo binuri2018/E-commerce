@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import UpdateProductForm from './UpdateProductForm';
 import './ProductTable.css';
+import logo from '../../Assets/logo.png'; // Import the logo
 
 const ProductTable = () => {
     const [products, setProducts] = useState([]);
@@ -34,7 +35,24 @@ const ProductTable = () => {
 
     const generateReport = () => {
         const doc = new jsPDF();
-        doc.text('Products Report', 10, 10);
+
+        const themeColor = [85, 17, 51]; // #551133 in RGB
+
+        // Add colored background for logo
+        doc.setFillColor(themeColor[0], themeColor[1], themeColor[2]);
+        doc.rect(0, 0, doc.internal.pageSize.getWidth(), 40, 'F'); // Draw a filled rectangle across the top
+
+        // Add Logo on top of the background
+        const imgData = logo;
+        doc.addImage(imgData, 'PNG', 15, 5, 50, 30); // Increased width and adjusted position
+
+        // Add title below the colored background
+        doc.setFontSize(18);
+        doc.setTextColor(255, 255, 255); // White text for title on dark background
+        doc.text('Products Report', 105, 30, { align: 'center' }); // Adjust position below background
+
+        // Reset text color for table content
+        doc.setTextColor(0, 0, 0);
 
         const tableColumn = ['Name', 'Price', 'Stock', 'Description', 'Category'];
         const tableRows = [];
@@ -42,7 +60,7 @@ const ProductTable = () => {
         products.forEach((product) => {
             const productData = [
                 product.name,
-                product.price,
+                `Rs.${product.price}`,
                 product.stock,
                 product.description,
                 product.category,
@@ -53,6 +71,16 @@ const ProductTable = () => {
         doc.autoTable({
             head: [tableColumn],
             body: tableRows,
+            startY: 50, // Adjust start position below title
+            headStyles: { fillColor: themeColor, fontStyle: 'bold' }, // Apply theme color, make bold
+            bodyStyles: { fontSize: 10 }, // Smaller font size for body
+            alternateRowStyles: { fillColor: [240, 240, 240] }, // Alternate row color
+            styles: { cellPadding: 3 }, // Add cell padding
+            columnStyles: {
+                1: { cellWidth: 20 }, // Adjust width for Price
+                2: { cellWidth: 15 }, // Adjust width for Stock
+                 // You might need to adjust other column widths based on your data
+            }
         });
 
         doc.save('products_report.pdf');
