@@ -157,15 +157,18 @@ const CustomerHome = () => {
                             <h3>{selectedProduct.name}</h3>
                             <p>{selectedProduct.description}</p>
                             <p>Price: Rs.{selectedProduct.price}</p>
-                            {selectedProduct.stock ? (
-                                <p>In Stock: {selectedProduct.stock}</p>
-                            ) : (
-                                <p>Out of Stock</p>
-                            )}
+                            <p style={{
+                                color: selectedProduct.stock > 0 ? '#28a745' : '#dc3545',
+                                fontWeight: 'bold',
+                                margin: '10px 0'
+                            }}>
+                                {selectedProduct.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                            </p>
                             <div className="quantity-control">
                                 <button
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                                     className="quantity-button"
+                                    disabled={selectedProduct.stock === 0}
                                 >
                                     -
                                 </button>
@@ -173,15 +176,25 @@ const CustomerHome = () => {
                                 <button
                                     onClick={() => setQuantity(quantity + 1)}
                                     className="quantity-button"
+                                    disabled={selectedProduct.stock === 0}
                                 >
                                     +
                                 </button>
                             </div>
                             <div className="popup-buttons">
-                                <button className="add-to-cart-button" onClick={() => handleAddToCart(selectedProduct)}>
+                                <button 
+                                    className="add-to-cart-button" 
+                                    onClick={() => handleAddToCart(selectedProduct)}
+                                    disabled={selectedProduct.stock === 0}
+                                >
                                     Add to Cart
                                 </button>
-                                <button className="buy-now-button">Buy Now</button>
+                                <button 
+                                    className="buy-now-button"
+                                    disabled={selectedProduct.stock === 0}
+                                >
+                                    Buy Now
+                                </button>
                             </div>
                         </div>
                     </div>
