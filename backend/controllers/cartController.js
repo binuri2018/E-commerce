@@ -1,6 +1,6 @@
 const Cart = require('../models/Cart');
+const Product = require('../models/Product');
 
-// Add item to cart
 // Add item to cart
 const addToCart = async (req, res) => {
     try {
@@ -12,6 +12,20 @@ const addToCart = async (req, res) => {
             console.log("Missing required fields:", req.body);
             return res.status(400).json({ error: 'Missing required fields' });
         }
+
+        // Check and update product stock
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        if (product.stock < quantity) {
+            return res.status(400).json({ error: 'Not enough stock available' });
+        }
+
+        // Update product stock
+        product.stock -= quantity;
+        await product.save();
 
         let cart = await Cart.findOne({ customerId });
 
@@ -29,12 +43,16 @@ const addToCart = async (req, res) => {
             }
         }
 
-        // ✅ Calculate subtotal
+        // Calculate subtotal
         cart.subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
         await cart.save();
         console.log("Cart updated successfully:", cart);
-        res.status(200).json({ message: 'Item added to cart successfully', cart });
+        res.status(200).json({ 
+            message: 'Item added to cart successfully', 
+            cart,
+            updatedProduct: product // Send back the updated product info
+        });
     } catch (error) {
         console.error('Error adding to cart:', error);
         res.status(500).json({ error: 'Internal Server Error' });

@@ -14,26 +14,35 @@ const CustomerHome = () => {
     const [quantity, setQuantity] = useState(1);
     const [cart, setCart] = useState([]); 
     const [popupMessage, setPopupMessage] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');  // State for search query
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:5000/api/products${category ? `?category=${category}` : ''}`
-                );
-                setProducts(response.data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
+    // Function to fetch updated products
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5000/api/products${category ? `?category=${category}` : ''}`
+            );
+            setProducts(response.data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
+    // Fetch products on component mount and when category changes
+    useEffect(() => {
         fetchProducts();
     }, [category]);
 
+    // Set up polling to refresh product data periodically
+    useEffect(() => {
+        const intervalId = setInterval(fetchProducts, 5000); // Refresh every 5 seconds
+        return () => clearInterval(intervalId); // Cleanup on unmount
+    }, []);
+
     const handleProductClick = (product) => {
         setSelectedProduct(product);
+        setQuantity(1); // Reset quantity when opening popup
     };
 
     const handleClosePopup = () => {
@@ -44,33 +53,124 @@ const CustomerHome = () => {
     const handleAddToCart = async (product) => {
         try {
             if (!product || !product._id) {
-                console.error(" Invalid product data:", product);
+                console.error("Invalid product data:", product);
                 alert("Invalid product details. Please try again.");
                 return;
             }
     
             const customerId = localStorage.getItem("customerId");
             if (!customerId) {
-                console.error(" User is not logged in!");
+                console.error("User is not logged in!");
                 alert("Please log in to add items to your cart.");
                 return;
+            }
+
+            // Check if requested quantity is available
+            if (quantity > product.stock) {
+                alert("Requested quantity not available in stock!");
+                return;
+            }
+
+            // Additional check for exact stock match
+            if (quantity === product.stock) {
+                if (!window.confirm(`This will add all remaining ${product.stock} items to your cart. Continue?`)) {
+                    return;
+                }
             }
     
             const requestData = {
                 customerId,
                 productId: product._id,
-                quantity: 1,
+                quantity: quantity,
                 price: product.price,
             };
     
-            const response = await axios.post("http://localhost:5000/api/cart/add-to-cart", requestData, {
-                headers: { "Content-Type": "application/json" },
-            });
-    
-            alert("Item added to cart!");
+            const response = await axios.post(
+                "http://localhost:5000/api/cart/add-to-cart", 
+                requestData,
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (response.data && response.data.updatedProduct) {
+                const updatedProduct = response.data.updatedProduct;
+                
+                // Update local product stock with the updated product from backend
+                setProducts(prevProducts => 
+                    prevProducts.map(p => 
+                        p._id === product._id 
+                            ? { ...p, stock: updatedProduct.stock }
+                            : p
+                    )
+                );
+
+                // Update selected product if it's currently being viewed
+                if (selectedProduct && selectedProduct._id === product._id) {
+                    setSelectedProduct(prev => ({
+                        ...prev,
+                        stock: updatedProduct.stock
+                    }));
+                    
+                    // If stock is now 0, close the popup after a short delay
+                    if (updatedProduct.stock === 0) {
+                        setTimeout(() => {
+                            handleClosePopup();
+                            alert("This item is now out of stock!");
+                        }, 1000);
+                    }
+                }
+
+                alert("Item added to cart!");
+                handleClosePopup(); // Close popup after successful addition
+            } else {
+                // If we don't get updated product info, just update based on the quantity
+                setProducts(prevProducts => 
+                    prevProducts.map(p => 
+                        p._id === product._id 
+                            ? { ...p, stock: p.stock - quantity }
+                            : p
+                    )
+                );
+
+                if (selectedProduct && selectedProduct._id === product._id) {
+                    const newStock = selectedProduct.stock - quantity;
+                    setSelectedProduct(prev => ({
+                        ...prev,
+                        stock: newStock
+                    }));
+                    
+                    if (newStock === 0) {
+                        setTimeout(() => {
+                            handleClosePopup();
+                            alert("This item is now out of stock!");
+                        }, 1000);
+                    }
+                }
+
+                alert("Item added to cart!");
+                handleClosePopup();
+            }
         } catch (error) {
-            alert("Failed to add item to cart.");
+            console.error("Error adding to cart:", error);
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error);
+            } else {
+                alert("Failed to add item to cart. Please try again.");
+            }
         }
+    };
+
+    // Add this new function to handle quantity changes
+    const handleQuantityChange = (newQuantity) => {
+        if (!selectedProduct) return;
+        
+        if (newQuantity > selectedProduct.stock) {
+            alert("Cannot add more than available stock!");
+            return;
+        }
+        
+        setQuantity(newQuantity);
     };
 
     const categories = ['All', 'Gens', 'Ladies', 'Kids', 'Other'];
@@ -166,7 +266,7 @@ const CustomerHome = () => {
                             </p>
                             <div className="quantity-control">
                                 <button
-                                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                    onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
                                     className="quantity-button"
                                     disabled={selectedProduct.stock === 0}
                                 >
@@ -174,9 +274,9 @@ const CustomerHome = () => {
                                 </button>
                                 <span className="quantity">{quantity}</span>
                                 <button
-                                    onClick={() => setQuantity(quantity + 1)}
+                                    onClick={() => handleQuantityChange(Math.min(selectedProduct.stock, quantity + 1))}
                                     className="quantity-button"
-                                    disabled={selectedProduct.stock === 0}
+                                    disabled={selectedProduct.stock === 0 || quantity >= selectedProduct.stock}
                                 >
                                     +
                                 </button>
