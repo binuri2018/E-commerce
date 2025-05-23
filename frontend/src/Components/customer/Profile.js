@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import "./Profile.css";
-import logo from "../Assets/logo.png";
+import logo from "../../Assets/logo.png";
 import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaUser, FaEdit } from "react-icons/fa";
 
 const Profile = () => {
