@@ -2,14 +2,14 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoutes";
-import AdminDashboard from "./Pages/AdminDashboard";
-import CustomerHome from "./Pages/CustomerHome";
+import AdminDashboard from "./Components/Admin/AdminDashboard";
+import CustomerHome from "./Components/customer/CustomerHome";
 import LoginPage from "./Components/LoginPage";
 import SignupPage from "./Components/SignupPage";
 import WelcomePage from "./Pages/WelcomePage";
-import MyCart from "./Pages/MyCart";
+import MyCart from "./Components/customer/MyCart";
 import AdminLogin from "./Components/AdminLogin";
-import Profile from "./Pages/Profile";
+import Profile from "./Components/customer/Profile";
 
 const App = () => {
     return (

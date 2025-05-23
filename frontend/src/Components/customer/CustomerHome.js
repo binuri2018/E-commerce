@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import ProductCard from '../Components/customer/ProductCard'; 
+import ProductCard from './ProductCard'; 
 import './CustomerHome.css';
-import logo from "../Assets/logo.png";
+import logo from "../../Assets/logo.png";
 import { FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa"; 
 import { FaFacebook, FaTiktok, FaInstagram, FaTwitter } from "react-icons/fa"; 
 

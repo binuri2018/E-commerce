@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import ProductTable from '../Components/Admin/ProductTable';
-import ProductForm from '../Components/Admin/ProductForm';
-import AllCarts from '../Components/Admin/AllCarts';
+import ProductTable from './ProductTable';
+import ProductForm from './ProductForm';
+import AllCarts from './AllCarts';
 
 const AdminDashboard = () => {
     return (
