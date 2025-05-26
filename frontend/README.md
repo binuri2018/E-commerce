@@ -1,70 +1,225 @@
-# Getting Started with Create React App
+# E-Commerce Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, full-stack e-commerce platform built with React and Node.js, featuring a robust backend API and a responsive frontend interface. This platform provides a seamless shopping experience with secure authentication, product management, and an intuitive admin dashboard.
 
-## Available Scripts
+![E-Commerce Platform](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 
-In the project directory, you can run:
+## 🌟 Features
 
-### `npm start`
+### User Features
+- **Authentication & Authorization**
+  - Secure login and registration system
+  - JWT-based authentication
+  - Password encryption
+  - Session management
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Shopping Experience**
+  - Browse products with categories and filters
+  - Advanced search functionality
+  - Product details with images and descriptions
+  - Shopping cart management
+  - Wishlist functionality
+  - Order tracking
+  - Secure checkout process
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **User Dashboard**
+  - Profile management
+  - Order history
+  - Address management
+  - Wishlist management
+  - Review and rating system
 
-### `npm test`
+### Admin Features
+- **Product Management**
+  - Add, edit, and delete products
+  - Manage product categories
+  - Upload product images
+  - Inventory management
+  - Price management
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Order Management**
+  - View and process orders
+  - Update order status
+  - Generate order reports
+  - Handle returns and refunds
 
-### `npm run build`
+- **User Management**
+  - View user accounts
+  - Manage user roles
+  - Handle user queries
+  - User analytics
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🏗️ Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Frontend
+- **Core**
+  - React.js 18.x
+  - React Router v6 for navigation
+  - Context API for state management
+  - Custom hooks for reusable logic
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **UI/UX**
+  - Material-UI components
+  - Responsive design
+  - CSS3 with modern features
+  - SVG icons and illustrations
 
-### `npm run eject`
+- **State Management & API**
+  - Axios for API requests
+  - React Query for data fetching
+  - Form validation with Formik/Yup
+  - Local storage for cart persistence
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Backend
+- **Core**
+  - Node.js with Express.js
+  - MongoDB with Mongoose ODM
+  - RESTful API architecture
+  - MVC pattern implementation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Security**
+  - JWT authentication
+  - Password hashing with bcrypt
+  - Input validation and sanitization
+  - CORS configuration
+  - Rate limiting
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **File Handling**
+  - Multer for file uploads
+  - Image optimization
+  - Cloud storage integration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (v4.4 or higher)
+- npm (v6 or higher) or yarn
+- Git
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Environment Setup
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Clone the repository
+```bash
+git clone https://github.com/binuri2018/ecommerce.git
+cd ecommerce
+```
 
-### Code Splitting
+2. Backend Setup
+```bash
+cd backend
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Create .env file with the following variables:
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/ecommerce
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=30d
+NODE_ENV=development
+```
 
-### Analyzing the Bundle Size
+3. Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Running the Application
 
-### Making a Progressive Web App
+1. Start MongoDB
+```bash
+# Make sure MongoDB is running on your system
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Start the backend server
+```bash
+cd backend
+npm start
+# Server will start on http://localhost:5000
+```
 
-### Advanced Configuration
+3. Start the frontend development server
+```bash
+cd frontend
+npm start
+# Application will open in your browser at http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📁 Project Structure
 
-### Deployment
+```
+ecommerce/
+├── frontend/               
+│   ├── public/            # Static files
+│   ├── src/              
+│   │   ├── Assets/       # Images, fonts, and other static assets
+│   │   ├── Components/   # Reusable UI components
+│   │   │   ├── common/   # Shared components
+│   │   │   ├── layout/   # Layout components
+│   │   │   └── forms/    # Form components
+│   │   ├── Pages/        # Page components
+│   │   ├── context/      # React Context providers
+│   │   └── utils/        # Utility functions and helpers
+│   └── package.json
+│
+├── backend/              
+│   ├── config/           # Configuration files
+│   ├── controllers/      # Route controllers
+│   ├── middleware/       # Custom middleware
+│   │   ├── auth.js      # Authentication middleware
+│   │   └── upload.js    # File upload middleware
+│   ├── models/          # MongoDB models
+│   ├── routes/          # API routes
+│   ├── uploads/         # File uploads
+│   └── server.js        # Entry point
+│
+└── README.md
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🔧 Available Scripts
 
-### `npm run build` fails to minify
+### Frontend
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
+- `npm run eject` - Ejects from Create React App
+- `npm run lint` - Runs ESLint
+- `npm run format` - Formats code with Prettier
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Backend
+- `npm run dev` - Runs the server in development mode with nodemon
+- `npm start` - Runs the server in production mode
+- `npm test` - Runs the test suite
+- `npm run lint` - Runs ESLint
+- `npm run seed` - Seeds the database with initial data
+
+## 📝 API Documentation
+
+### Authentication Endpoints
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user
+- `POST /api/auth/logout` - Logout user
+
+### Product Endpoints
+- `GET /api/products` - Get all products
+- `GET /api/products/:id` - Get single product
+- `POST /api/products` - Create product (Admin)
+- `PUT /api/products/:id` - Update product (Admin)
+- `DELETE /api/products/:id` - Delete product (Admin)
+
+### Order Endpoints
+- `GET /api/orders` - Get user orders
+- `POST /api/orders` - Create new order
+- `GET /api/orders/:id` - Get single order
+- `PUT /api/orders/:id` - Update order status (Admin)
+
+For detailed API documentation, visit `/api-docs` when running the backend server.
+
+## 👥 Authors
+
+- **Binuri** - *Initial work* - [binuri2018](https://github.com/binuri2018)
+
